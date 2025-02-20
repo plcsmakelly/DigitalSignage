@@ -1,0 +1,8 @@
+opencv-python
+pillow
+moviepy
+numpy
+requests
+flask
+uvicorn[standard]
+gtts

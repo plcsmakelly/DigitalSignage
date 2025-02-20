@@ -1,0 +1,8 @@
+.idea
+venv
+ffmpeg
+final.mp4
+output.mp4
+tts.mp3
+alert.mp3
+*.ttf

@@ -1,0 +1,68 @@
+services:
+  database:
+    container_name: ds_database
+    restart: unless-stopped
+    image: percona:ps-8
+    ports:
+      - 127.0.0.1:3306:3306
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=ds
+      - MYSQL_ROOT_PASSWORD=databasepassword
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+  app:
+    container_name: ds_app
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    volumes:
+      - .env:/var/www/html/.env:ro
+      # Include the following line if you want to use the Google integration
+      - oauth.json:/var/www/html/google.json
+      - ds_storage:/var/www/html/storage/app
+    depends_on:
+      - database
+    ports:
+      - 8080:80
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "50m"
+# Uncomment the below lines if you want to use the AlertGen service
+#  videogen:
+#    container_name: ds_videogen
+#    restart: unless-stopped
+#    build:
+#      context: AlertGen
+#    logging:
+#      driver: "json-file"
+#      options:
+#        max-size: "50m"
+# Uncomment the below lines if you want use a Docker container as cron
+#  cron:
+#    container_name: ds_cron
+#    restart: unless-stopped
+#    build:
+#      context: .
+#      dockerfile: ./docker/Dockerfile.cron
+#    volumes:
+#      - .env:/var/www/html/.env:ro
+# Uncomment the below line if you want to use the Google integration
+#      - oauth.json:/var/www/html/google.json
+#      - ds_storage:/var/www/html/storage/appl
+#    depends_on:
+#      - database
+#      - app
+#    logging:
+#      driver: "json-file"
+#      options:
+#        max-size: "25m"
+
+volumes:
+  db_data:
+  ds_storage:

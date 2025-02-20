@@ -1,0 +1,16 @@
+node_modules/
+npm-debug.log
+yarn-error.log
+.env
+Homestead.yaml
+Homestead.json
+/.vagrant
+.phpunit.result.cache
+.env.backup
+.env.production
+.phpactor.json
+auth.json
+oauth.json
+google.json
+docker-compose.yaml
+.DS_Store
